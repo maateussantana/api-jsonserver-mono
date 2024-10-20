@@ -1,0 +1,9 @@
+.align-button{
+	display: flex;
+	justify-content: right;
+	margin-bottom: 10px;
+}
+
+.centered{
+	text-align: center;
+}

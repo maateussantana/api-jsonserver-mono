@@ -10,6 +10,7 @@
 			integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
 			crossorigin="anonymous"
 		/>
+	<link rel="stylesheet" href="style.css">
 		<title>MEU CRUD</title>
 	</head>
 	<body>
@@ -18,6 +19,7 @@
 
 			<form id="formPessoa" class="needs-validation" novalidate>
 				<div class="form-row">
+					<input type="hidden" id="id">
 					<div class="col-md-4 mb-3">
 						<label for="nome">Nome</label>
 						<input
@@ -62,114 +64,34 @@
 					</div>
 				</div>
 				<button class="btn btn-primary" type="submit">Enviar</button>
+				<button onclick="mostrarTable()" class="btn btn-danger" type="reset" >Cancelar</button>
 			</form>
 
 			<br />
 			<br />
 
-			<div class="table-responsive">
-				
-			<table class="table table-striped">
-				<thead class="thead-dark">
-					<tr>
-						<th>ID</th>
-						<th>Nome</th>
-						<th>Idade</th>
-						<th>Email</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
+			<div id="tablePessoa" class="table-responsive">
+				<div class="align-button">
+					<button onclick="mostrarForm()" type="button" class="btn btn-success">Adicionar</button>
+				</div>
+				<table class="table table-striped centered">
+					<thead class="thead-dark">
+						<tr>
+							<th>ID</th>
+							<th>Nome</th>
+							<th>Idade</th>
+							<th>Email</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
 			</div>
 		</div>
 
-		<script>
-			const urlApi =
-				"https://a65e390a-8c32-4458-839f-7a43d51b36ce-00-ifsx95y3uc7x.kirk.replit.dev/pessoas";
-			
-
-			formPessoa = document.querySelector("#formPessoa");
-
-			formPessoa.addEventListener("submit", function (e){
-				e.preventDefault()  // Previne o envio do form
-
-				const formData = new FormData(formPessoa); // Cria um objeto FormData com os dados do formulário
-
-				const pessoa = Object.fromEntries(formData); // Converte o objeto FormData em um objeto JavaScript
-
-				// Requisição POST para enviar a pessoa para o servidor
-				fetch(urlApi,{
-					method: "POST", // Método HTTP para enviar os dados
-					headers: {
-						"Content-Type": "application/json", // Tipo de conteúdo dos dados
-					},
-					body: JSON.stringify(pessoa), // Converte o objeto JavaScript em uma string JSON
-				}).then((res)=>{
-					getAllPessoas() // Chama a função getAllPessoas para atualizar a tabela
-				})
-			})
-
-			// GET PESSOAS - GET ALL
-
-			function getAllPessoas(){
-				fetch(urlApi)
-				.then((res) => {
-					return res.json();
-				})
-				.then((pessoas) => {
-					let listData = ""; // encher de item conforme tamanho de pessoas[]
-					tbody = document.querySelector("tbody");
-
-					for (let pessoa of pessoas) {
-						listData += `<tr>
-								<td>${pessoa.id}</td>
-								<td>${pessoa.nome}</td>
-								<td>${pessoa.idade}</td>
-								<td>${pessoa.email}</td>
-						</tr>`;
-					}
-
-					tbody.innerHTML = listData;
-				});
-
-			}
-
-			getAllPessoas()
-
-			
-
-		</script>
-
-		<script>
-			// Exemplo de JavaScript inicial para desativar envios de formulário, se houver campos inválidos.
-			(function () {
-				"use strict";
-				window.addEventListener(
-					"load",
-					function () {
-						// Pega todos os formulários que nós queremos aplicar estilos de validação Bootstrap personalizados.
-						var forms = document.getElementsByClassName("needs-validation");
-						// Faz um loop neles e evita o envio
-						var validation = Array.prototype.filter.call(
-							forms,
-							function (form) {
-								form.addEventListener(
-									"submit",
-									function (event) {
-										if (form.checkValidity() === false) {
-											event.preventDefault();
-											event.stopPropagation();
-										}
-										form.classList.add("was-validated");
-									},
-									false,
-								);
-							},
-						);
-					},
-					false,
-				);
-			})();
-		</script>
+		<!-- SCRIPT PARA VALIDAR FORM -->
+		<script src="valid-form.js"></script>
+		<!-- SCRIPT LOCAL -->
+		<script src="script.js"></script>
 	</body>
 </html>
